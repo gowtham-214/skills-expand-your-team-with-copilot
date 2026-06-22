@@ -569,6 +569,14 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-section">
+        <span class="share-label">Share:</span>
+        <div class="share-buttons">
+          <button class="share-button share-twitter" data-activity="${name}" title="Share on X (Twitter)" aria-label="Share on X (formerly Twitter)">𝕏</button>
+          <button class="share-button share-facebook" data-activity="${name}" title="Share on Facebook" aria-label="Share on Facebook">f</button>
+          <button class="share-button share-copy" data-activity="${name}" title="Copy link" aria-label="Copy link to clipboard">🔗</button>
+        </div>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +594,45 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add click handlers for share buttons
+    const shareUrl = `${window.location.origin}${window.location.pathname}?activity=${encodeURIComponent(name)}`;
+    const truncatedDescription = details.description.length > 100
+      ? details.description.slice(0, 97) + "..."
+      : details.description;
+    const shareText = `Check out "${name}" at Mergington High School! ${truncatedDescription}`;
+
+    activityCard.querySelector(".share-twitter").addEventListener("click", () => {
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+      window.open(twitterUrl, "_blank", "noopener,noreferrer");
+    });
+
+    activityCard.querySelector(".share-facebook").addEventListener("click", () => {
+      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+      window.open(facebookUrl, "_blank", "noopener,noreferrer");
+    });
+
+    activityCard.querySelector(".share-copy").addEventListener("click", (event) => {
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        const btn = event.currentTarget;
+        const originalTitle = btn.title;
+        const originalLabel = btn.getAttribute("aria-label");
+        btn.title = "Copied!";
+        btn.setAttribute("aria-label", "Link copied to clipboard");
+        btn.classList.add("share-copy-success");
+        setTimeout(() => {
+          btn.title = originalTitle;
+          btn.setAttribute("aria-label", originalLabel);
+          btn.classList.remove("share-copy-success");
+        }, 2000);
+      }).catch(() => {
+        const btn = event.currentTarget;
+        btn.title = "Copy failed – please copy the URL manually";
+        setTimeout(() => {
+          btn.title = "Copy link";
+        }, 2000);
+      });
+    });
 
     activitiesList.appendChild(activityCard);
   }
