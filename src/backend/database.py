@@ -98,17 +98,6 @@ initial_activities = {
         "max_participants": 15,
         "participants": ["amelia@mergington.edu", "harper@mergington.edu"]
     },
-    "Manga Maniacs": {
-        "description": "Step into the world of Japanese Manga (graphic novels) and follow epic heroes, unforgettable rivals, and page-turning adventures every week.",
-        "schedule": "Tuesdays at 7pm",
-        "schedule_details": {
-            "days": ["Tuesday"],
-            "start_time": "19:00",
-            "end_time": "20:00"
-        },
-        "max_participants": 15,
-        "participants": []
-    },
     "Drama Club": {
         "description": "Act, direct, and produce plays and performances",
         "schedule": "Mondays and Wednesdays, 3:30 PM - 5:30 PM",
@@ -197,3 +186,4 @@ initial_teachers = [
         "role": "admin"
     }
 ]
+
